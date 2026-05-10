@@ -2,491 +2,1534 @@
 <html lang="lv">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>LĪDAKA4 — Mobilais Operators</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Augu Laistīšanas Atgādinājums</title>
   <style>
-    :root {
-      --cyan: #00e5ff;
-      --deep: #001622;
-      --mid: #002a40;
-      --teal: #0099bb;
-      --accent: #00ffcc;
-      --text: #cce8f0;
-      --muted: #5a8a99;
-    }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      background: var(--deep);
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      overflow-x: hidden;
+      font-family: Arial, sans-serif;
+      background: #f0f7f0;
+      color: #333;
+      min-height: 100vh;
     }
 
-    /* Animated background */
-    body::before {
-      content: '';
-      position: fixed; inset: 0;
-      background:
-        radial-gradient(ellipse 80% 50% at 50% 0%, rgba(0,150,200,0.12) 0%, transparent 60%),
-        radial-gradient(ellipse 40% 30% at 80% 80%, rgba(0,255,200,0.06) 0%, transparent 50%);
-      pointer-events: none; z-index: 0;
+    header {
+      background: #2e7d32;
+      color: white;
+      padding: 14px 20px;
+      font-size: 22px;
+      font-weight: bold;
     }
 
-    /* NAV */
     nav {
-      position: sticky; top: 0; z-index: 100;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 48px;
-      height: 68px;
-      background: rgba(0,22,34,0.85);
-      backdrop-filter: blur(14px);
-      border-bottom: 1px solid rgba(0,200,230,0.12);
-    }
-    .nav-logo {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: 1.6rem;
-      color: var(--cyan);
-      letter-spacing: -1px;
-      text-decoration: none;
-    }
-    .nav-logo span { color: var(--accent); }
-    nav ul { list-style: none; display: flex; gap: 32px; }
-    nav ul a {
-      color: var(--text); text-decoration: none;
-      font-size: 0.92rem; font-weight: 500;
-      transition: color .2s;
-    }
-    nav ul a:hover { color: var(--cyan); }
-    .nav-cart {
-      background: var(--teal); color: #fff;
-      border: none; padding: 9px 22px; border-radius: 6px;
-      font-family: 'Syne', sans-serif; font-weight: 700;
-      cursor: pointer; text-decoration: none; font-size: 0.9rem;
-      transition: background .2s;
-      position: relative;
-    }
-    .nav-cart:hover { background: var(--cyan); color: var(--deep); }
-    #cart-count {
-      position: absolute; top: -8px; right: -8px;
-      background: var(--accent); color: var(--deep);
-      border-radius: 50%; width: 20px; height: 20px;
-      font-size: 0.72rem; font-weight: 700;
-      display: flex; align-items: center; justify-content: center;
-      display: none;
+      background: #388e3c;
+      display: flex;
+      gap: 4px;
+      padding: 6px 16px;
+      flex-wrap: wrap;
     }
 
-    /* HERO */
-    .hero {
-      position: relative; z-index: 1;
-      text-align: center;
-      padding: 100px 24px 80px;
-      overflow: hidden;
+    nav button {
+      background: none;
+      border: none;
+      color: white;
+      padding: 7px 14px;
+      cursor: pointer;
+      border-radius: 4px;
+      font-size: 14px;
     }
-    .hero-eyebrow {
+
+    nav button:hover { background: #2e7d32; }
+    nav button.active { background: #1b5e20; font-weight: bold; }
+    nav button.debug-tab { background: #5d4037; }
+    nav button.debug-tab:hover { background: #4e342e; }
+    nav button.debug-tab.active { background: #3e2723; }
+
+    .page { display: none; padding: 20px; max-width: 860px; margin: 0 auto; }
+    .page.active { display: block; }
+
+    h2 { margin-bottom: 16px; color: #2e7d32; }
+    h3 { margin-bottom: 10px; }
+
+    .card {
+      background: white;
+      border: 1px solid #c8e6c9;
+      border-radius: 6px;
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+
+    .plant-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .plant-header h3 { color: #2e7d32; margin: 0; }
+
+    .badge {
       display: inline-block;
-      font-size: 0.8rem; letter-spacing: 4px; text-transform: uppercase;
-      color: var(--accent); margin-bottom: 24px;
-      border: 1px solid rgba(0,255,200,0.3);
-      padding: 6px 18px; border-radius: 40px;
+      padding: 3px 9px;
+      border-radius: 12px;
+      font-size: 12px;
+      margin-top: 6px;
     }
-    .hero h1 {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(3rem, 8vw, 7rem);
-      font-weight: 800;
-      line-height: 1;
-      letter-spacing: -3px;
-      color: #fff;
-      margin-bottom: 12px;
-    }
-    .hero h1 span { color: var(--cyan); }
-    .hero-sub {
-      font-size: 1.1rem; color: var(--muted);
-      max-width: 560px; margin: 20px auto 44px;
-      line-height: 1.7;
-    }
-    .hero-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
-    .btn-primary {
-      background: var(--cyan); color: var(--deep);
-      padding: 14px 38px; border-radius: 8px;
-      font-family: 'Syne', sans-serif; font-weight: 700;
-      text-decoration: none; font-size: 1rem;
-      transition: transform .2s, box-shadow .2s;
-      box-shadow: 0 0 30px rgba(0,230,255,0.25);
-    }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 50px rgba(0,230,255,0.4); }
-    .btn-ghost {
-      border: 1px solid var(--teal); color: var(--cyan);
-      padding: 14px 38px; border-radius: 8px;
-      font-family: 'Syne', sans-serif; font-weight: 700;
-      text-decoration: none; font-size: 1rem;
-      transition: border-color .2s, color .2s;
-    }
-    .btn-ghost:hover { border-color: var(--cyan); }
 
-    /* WAVE */
-    .wave-divider { line-height: 0; }
-    .wave-divider svg { display: block; width: 100%; }
+    .badge-ok      { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+    .badge-today   { background: #fff8e1; color: #f57f17; border: 1px solid #ffe082; }
+    .badge-overdue { background: #ffebee; color: #c62828; border: 1px solid #ef9a9a; }
 
-    /* PLANS SECTION */
-    .plans-section {
-      position: relative; z-index: 1;
-      padding: 80px 24px 100px;
-      background: var(--mid);
+    .plant-meta {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 6px;
+      margin-top: 10px;
+      font-size: 13px;
     }
+
+    .meta-item { color: #555; }
+    .meta-item span { font-weight: bold; color: #333; }
+    .plant-notes { margin-top: 8px; font-size: 13px; color: #555; }
+
+    .form-group { margin-bottom: 12px; }
+    label { display: block; margin-bottom: 4px; font-size: 14px; font-weight: bold; color: #444; }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+    input[type="password"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid #bbb;
+      border-radius: 4px;
+      font-size: 14px;
+      background: white;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #388e3c;
+    }
+
+    textarea { resize: vertical; }
+
+    .btn {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .btn-green { background: #388e3c; color: white; }
+    .btn-green:hover { background: #2e7d32; }
+    .btn-red { background: #e53935; color: white; }
+    .btn-red:hover { background: #c62828; }
+    .btn-blue { background: #1976d2; color: white; }
+    .btn-blue:hover { background: #1565c0; }
+    .btn-grey { background: #ccc; color: #333; }
+    .btn-grey:hover { background: #bbb; }
+    .btn-brown { background: #6d4c41; color: white; }
+    .btn-brown:hover { background: #5d4037; }
+    .btn-small { padding: 5px 10px; font-size: 12px; }
+
+    .msg-error   { color: #c62828; font-size: 13px; margin-top: 6px; }
+    .msg-success { color: #2e7d32; font-size: 13px; margin-top: 6px; }
+    .msg-info    { color: #555;    font-size: 13px; margin-top: 6px; font-style: italic; }
+
     .section-label {
+      font-size: 12px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #888;
+      margin-bottom: 8px;
+    }
+
+    /* Calendar */
+    .calendar-wrapper { background: white; border: 1px solid #c8e6c9; border-radius: 6px; overflow: hidden; }
+
+    .cal-header {
+      background: #2e7d32;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 16px;
+      font-weight: bold;
+    }
+
+    .cal-header button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+      line-height: 1;
+      padding: 0 6px;
+    }
+
+    .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); }
+
+    .cal-day-name {
       text-align: center;
-      font-size: 0.78rem; letter-spacing: 5px; text-transform: uppercase;
-      color: var(--accent); margin-bottom: 12px;
-    }
-    .section-title {
-      text-align: center;
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(2rem, 4vw, 3rem);
-      font-weight: 800; color: #fff; margin-bottom: 60px;
+      padding: 7px 4px;
+      font-size: 12px;
+      font-weight: bold;
+      background: #e8f5e9;
+      color: #555;
+      border-bottom: 1px solid #c8e6c9;
     }
 
-    .plans-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 24px; max-width: 1200px; margin: 0 auto;
+    .cal-cell {
+      min-height: 64px;
+      padding: 6px 4px;
+      border: 1px solid #e0e0e0;
+      font-size: 13px;
+      cursor: pointer;
+      vertical-align: top;
     }
-    .plan-card {
-      background: rgba(0,16,28,0.7);
-      border: 1px solid rgba(0,180,220,0.15);
-      border-radius: 16px; padding: 36px 28px;
-      position: relative; overflow: hidden;
-      transition: transform .3s, border-color .3s;
-      cursor: default;
-    }
-    .plan-card:hover {
-      transform: translateY(-6px);
-      border-color: rgba(0,230,255,0.4);
-    }
-    .plan-card.featured {
-      border-color: rgba(0,255,200,0.4);
-      background: rgba(0,40,60,0.8);
-    }
-    .plan-card.featured::before {
-      content: '🔥 POPULĀRĀKAIS';
-      position: absolute; top: 16px; right: 16px;
-      background: var(--accent); color: var(--deep);
-      font-size: 0.65rem; letter-spacing: 2px; font-weight: 700;
-      padding: 4px 10px; border-radius: 4px;
-    }
-    .plan-card::after {
-      content: '';
-      position: absolute; top: 0; left: 0; right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, var(--teal), var(--cyan));
-      opacity: 0; transition: opacity .3s;
-    }
-    .plan-card:hover::after, .plan-card.featured::after { opacity: 1; }
 
-    .plan-name {
-      font-family: 'Syne', sans-serif;
-      font-size: 1.5rem; font-weight: 800;
-      color: #fff; margin-bottom: 4px;
-    }
-    .plan-price {
-      font-size: 2.8rem; font-weight: 700;
-      color: var(--cyan);
-      font-family: 'Syne', sans-serif;
-      line-height: 1; margin: 16px 0 4px;
-    }
-    .plan-price span { font-size: 1rem; color: var(--muted); font-weight: 400; }
-    .plan-desc { font-size: 0.82rem; color: var(--muted); margin-bottom: 24px; }
-    .plan-features { list-style: none; margin-bottom: 28px; }
-    .plan-features li {
-      padding: 8px 0;
-      border-bottom: 1px solid rgba(0,150,180,0.1);
-      font-size: 0.88rem; color: var(--text);
-      display: flex; align-items: flex-start; gap: 8px;
-    }
-    .plan-features li::before { content: '✦'; color: var(--cyan); font-size: 0.7rem; margin-top: 3px; flex-shrink: 0; }
-    .btn-plan {
-      display: block; width: 100%;
-      background: transparent;
-      border: 1px solid var(--teal); color: var(--cyan);
-      padding: 12px; border-radius: 8px;
-      font-family: 'Syne', sans-serif; font-weight: 700;
-      font-size: 0.92rem; text-align: center;
-      text-decoration: none; cursor: pointer;
-      transition: background .2s, color .2s, border-color .2s;
-    }
-    .btn-plan:hover, .plan-card.featured .btn-plan {
-      background: var(--cyan); color: var(--deep); border-color: var(--cyan);
-    }
-    .plan-card.featured .btn-plan:hover { background: var(--accent); border-color: var(--accent); }
+    .cal-cell:hover { background: #f1f8e9; }
+    .cal-cell.today { background: #e8f5e9; font-weight: bold; }
+    .cal-cell.empty { background: #fafafa; cursor: default; }
+    .cal-cell.has-water { border-bottom: 3px solid #2e7d32; }
 
-    /* FEATURES */
-    .features-section {
-      position: relative; z-index: 1;
-      padding: 80px 24px;
-    }
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 32px; max-width: 1100px; margin: 0 auto;
-    }
-    .feature-item { text-align: center; }
-    .feature-icon {
-      font-size: 2.4rem; margin-bottom: 16px;
-      display: block;
-    }
-    .feature-item h3 {
-      font-family: 'Syne', sans-serif;
-      font-size: 1.1rem; color: #fff; margin-bottom: 8px;
-    }
-    .feature-item p { font-size: 0.88rem; color: var(--muted); line-height: 1.6; }
+    .cal-dots { margin-top: 4px; display: flex; flex-wrap: wrap; gap: 2px; }
+    .cal-dot { width: 7px; height: 7px; background: #2e7d32; border-radius: 50%; display: inline-block; }
 
-    /* EXTRA DATA */
-    .extra-section {
-      background: var(--mid);
-      padding: 60px 24px;
-      text-align: center;
-    }
-    .extra-box {
-      display: inline-block;
-      border: 1px solid rgba(0,230,255,0.2);
-      border-radius: 12px; padding: 28px 48px;
-      background: rgba(0,10,20,0.5);
-    }
-    .extra-box h3 { font-family: 'Syne',sans-serif; font-size: 1.3rem; color: var(--accent); margin-bottom: 8px; }
-    .extra-box p { color: var(--text); font-size: 0.9rem; }
-    .extra-price { font-size: 2rem; font-weight: 700; color: var(--cyan); font-family: 'Syne',sans-serif; }
-
-    /* FOOTER */
-    footer {
-      border-top: 1px solid rgba(0,180,220,0.1);
-      padding: 40px 48px;
-      display: flex; justify-content: space-between; align-items: center;
-      flex-wrap: wrap; gap: 16px;
-      font-size: 0.82rem; color: var(--muted);
-    }
-    footer a { color: var(--teal); text-decoration: none; }
-    footer a:hover { color: var(--cyan); }
-    .footer-logo { font-family: 'Syne',sans-serif; font-weight: 800; color: var(--cyan); font-size: 1.2rem; }
+    .day-detail { margin-top: 14px; }
 
     /* Toast */
     #toast {
-      position: fixed; bottom: 28px; right: 28px; z-index: 9999;
-      background: var(--accent); color: var(--deep);
-      padding: 14px 24px; border-radius: 10px;
-      font-family: 'Syne',sans-serif; font-weight: 700;
-      font-size: 0.9rem;
-      transform: translateY(80px); opacity: 0;
-      transition: all .4s cubic-bezier(.34,1.56,.64,1);
-      pointer-events: none;
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #2e7d32;
+      color: white;
+      padding: 10px 18px;
+      border-radius: 6px;
+      font-size: 14px;
+      display: none;
+      z-index: 999;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     }
-    #toast.show { transform: translateY(0); opacity: 1; }
 
-    @media(max-width:640px){
-      nav { padding: 0 20px; }
-      nav ul { display: none; }
-      footer { flex-direction: column; text-align: center; }
+    /* Modal */
+    .modal-bg {
+      display: none;
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.45);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-bg.open { display: flex; }
+    .modal-box {
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      width: 92%;
+      max-width: 480px;
+      max-height: 88vh;
+      overflow-y: auto;
+    }
+
+    /* Settings guide */
+    .guide-step { display: flex; gap: 10px; margin-bottom: 10px; font-size: 14px; }
+    .guide-num {
+      background: #388e3c;
+      color: white;
+      border-radius: 50%;
+      width: 24px; height: 24px;
+      min-width: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    /* Debug panel */
+    #debug-log {
+      background: #1a1a1a;
+      color: #e0e0e0;
+      border-radius: 6px;
+      padding: 12px;
+      font-family: monospace;
+      font-size: 12px;
+      height: 520px;
+      overflow-y: auto;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    .log-line { margin-bottom: 8px; border-bottom: 1px solid #2a2a2a; padding-bottom: 8px; }
+    .log-time     { color: #888; }
+    .log-REQUEST  { color: #64b5f6; }
+    .log-RESPONSE { color: #81c784; }
+    .log-ERROR    { color: #ef9a9a; }
+    .log-PARSE    { color: #ffb74d; }
+    .log-INFO     { color: #b0bec5; }
+
+    .toggle-wrap { display: flex; align-items: center; gap: 8px; }
+    .toggle-wrap input[type="checkbox"] { width: 40px; height: 20px; cursor: pointer; accent-color: #6d4c41; }
+
+    @media (max-width: 500px) {
+      .plant-meta { grid-template-columns: 1fr 1fr; }
+      .cal-cell { min-height: 44px; font-size: 11px; }
     }
   </style>
 </head>
 <body>
 
+<header>🌱 Augu Laistīšanas Atgādinājums</header>
+
 <nav>
-  <a class="nav-logo" href="index.html">LĪDAKA<span>4</span></a>
-  <ul>
-    <li><a href="index.html">Sākums</a></li>
-    <li><a href="plans.html">Plāni</a></li>
-    <li><a href="#features">Par mums</a></li>
-  </ul>
-  <a class="nav-cart" href="cart.html">
-    🛒 Grozs
-    <span id="cart-count">0</span>
-  </a>
+  <button id="nav-plants"   class="active" onclick="showPage('plants')">🪴 Mani Augi</button>
+  <button id="nav-calendar" onclick="showPage('calendar')">📅 Kalendārs</button>
+  <button id="nav-add"      onclick="showPage('add')">➕ Pievienot Augu</button>
+  <button id="nav-settings" onclick="showPage('settings')">⚙️ Iestatījumi</button>
+  <button id="nav-debug" class="debug-tab" onclick="showPage('debug')" style="display:none;">🐛 Atkļūdošana</button>
 </nav>
 
-<section class="hero">
-  <div class="hero-eyebrow">🐟 Latvijas straujākais operators</div>
-  <h1>MOBILAIS<br><span>OPERATORS</span><br>LATVIJAI</h1>
-  <p class="hero-sub">Godīgas cenas. Ātra interneta pārklājums. Zvani un ziņas uz visu Eiropu — bez pārsteigumiem.</p>
-  <div class="hero-btns">
-    <a href="plans.html" class="btn-primary">Skatīt Plānus →</a>
-    <a href="#plans" class="btn-ghost">Uzzināt Vairāk</a>
-  </div>
-</section>
-
-<div class="wave-divider">
-  <svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg">
-    <path fill="#002a40" d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z"/>
-  </svg>
+<!-- ═══════════════ MANI AUGI ═══════════════ -->
+<div id="page-plants" class="page active">
+  <h2>Mani Augi</h2>
+  <div id="plants-list"></div>
 </div>
 
-<section class="plans-section" id="plans">
-  <div class="section-label">tarifu plāni</div>
-  <h2 class="section-title">Izvēlies Savu Plānu</h2>
-  <div class="plans-grid">
-
-    <!-- BOMZIS -->
-    <div class="plan-card">
-      <div class="plan-name">🦆 Bomzis</div>
-      <div class="plan-price">€0.75<span>/mēn.</span></div>
-      <div class="plan-desc">Ideāls sākuma plāns ikdienai</div>
-      <ul class="plan-features">
-        <li>90 min. zvani uz Latviju un Eiropu</li>
-        <li>0.02 €/min uz jebkuru valsti pasaulē</li>
-        <li>500 SMS uz jebkuru Eiropas valsti</li>
-        <li>0.001–0.005 €/SMS pasaulē</li>
-        <li>50 GB internets Latvijā</li>
-        <li>27 GB Polijā, Lietuvā, Zviedrijā, Igaunijā, Vācijā, Rumānijā, Somijā, Dānijā, Čehijā</li>
-        <li>7 GB pārējās pasaules valstīs</li>
-      </ul>
-      <button class="btn-plan" onclick="addToCart('Bomzis', 0.75)">Izvēlēties →</button>
+<!-- ═══════════════ KALENDĀRS ═══════════════ -->
+<div id="page-calendar" class="page">
+  <h2>Laistīšanas Kalendārs</h2>
+  <div class="calendar-wrapper">
+    <div class="cal-header">
+      <button onclick="calPrev()">&#8249;</button>
+      <span id="cal-title">—</span>
+      <button onclick="calNext()">&#8250;</button>
     </div>
-
-    <!-- KAĻJANS -->
-    <div class="plan-card">
-      <div class="plan-name">💨 Kaļjans</div>
-      <div class="plan-price">€1.50<span>/mēn.</span></div>
-      <div class="plan-desc">Vairāk zvanu, bezlimita ziņas Eiropā</div>
-      <ul class="plan-features">
-        <li>500 min. zvani uz visām Eiropas valstīm</li>
-        <li>0.02 €/min uz citām valstīm</li>
-        <li>Bezlimita SMS uz visām Eiropas valstīm</li>
-        <li>0.001–0.004 €/SMS citur pasaulē</li>
-        <li>Bezlimita internets Baltijā un Polijā</li>
-        <li>65 GB Polijā, Baltijā un kaimiņvalstīs</li>
-        <li>35 GB pārējā Eiropā, 11 GB pasaulē*</li>
-      </ul>
-      <button class="btn-plan" onclick="addToCart('Kaļjans', 1.50)">Izvēlēties →</button>
-    </div>
-
-    <!-- MEINARDS -->
-    <div class="plan-card featured">
-      <div class="plan-name">🎩 Meinards</div>
-      <div class="plan-price">€3.00<span>/mēn.</span></div>
-      <div class="plan-desc">Bezlimita viss — visur Eiropā un tālāk</div>
-      <ul class="plan-features">
-        <li>Bezlimita zvani uz visām valstīm</li>
-        <li>Bezlimita SMS uz visām valstīm</li>
-        <li>Bezlimita internets iepriekš minētajās valstīs</li>
-        <li>100 GB pārējā Eiropā</li>
-        <li>27 GB visās citās pasaules valstīs*</li>
-        <li>Prioritārs tīkls Latvijā</li>
-      </ul>
-      <button class="btn-plan" onclick="addToCart('Meinards', 3.00)">Izvēlēties →</button>
-    </div>
-
-    <!-- MILJARDIERIS -->
-    <div class="plan-card">
-      <div class="plan-name">💎 Miljardieris</div>
-      <div class="plan-price">€5.00<span>/mēn.</span></div>
-      <div class="plan-desc">Absolūts bezlimits — visā pasaulē</div>
-      <ul class="plan-features">
-        <li>Bezlimita zvani visā pasaulē</li>
-        <li>Bezlimita SMS visā pasaulē</li>
-        <li>Bezlimita internets visā Eiropā</li>
-        <li>Bezlimita internets Krievijā, Austrālijā, ASV, Kanādā, Baltkrievijā</li>
-        <li>100 GB visās pārējās pasaules valstīs</li>
-        <li>VIP klientu atbalsts 24/7</li>
-      </ul>
-      <button class="btn-plan" onclick="addToCart('Miljardieris', 5.00)">Izvēlēties →</button>
-    </div>
-
+    <div id="cal-grid" class="cal-grid"></div>
   </div>
-  <p style="text-align:center;color:var(--muted);font-size:0.78rem;margin-top:24px;">* Neattiecas uz Ziemeļkoreju. Papildu GB: 0.12 €/GB visos plānos.</p>
-</section>
-
-<div class="wave-divider" style="background:var(--mid)">
-  <svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg">
-    <path fill="#001622" d="M0,30 C360,0 1080,60 1440,30 L1440,60 L0,60 Z"/>
-  </svg>
+  <div class="day-detail" id="day-detail"></div>
 </div>
 
-<section class="features-section" id="features">
-  <div class="section-label">kāpēc līdaka4</div>
-  <h2 class="section-title" style="text-align:center;font-family:'Syne',sans-serif;font-size:clamp(1.8rem,3vw,2.5rem);color:#fff;margin-bottom:56px;">Operators, Kuram Var Uzticēties</h2>
-  <div class="features-grid">
-    <div class="feature-item">
-      <span class="feature-icon">🌐</span>
-      <h3>100+ Valstis</h3>
-      <p>Roamings gandrīz visur — ar saprātīgām cenām un bez slēptām maksām.</p>
-    </div>
-    <div class="feature-item">
-      <span class="feature-icon">⚡</span>
-      <h3>4G/5G Tīkls</h3>
-      <p>Latvijā pilns 5G pārklājums. Ātra datu pārsūtīšana jebkurā vietā.</p>
-    </div>
-    <div class="feature-item">
-      <span class="feature-icon">💬</span>
-      <h3>24/7 Atbalsts</h3>
-      <p>Latviskais klientu serviss — pa tālruni, čatā un e-pastā jebkurā laikā.</p>
-    </div>
-    <div class="feature-item">
-      <span class="feature-icon">🔒</span>
-      <h3>Nav Slēpto Maksu</h3>
-      <p>Maksā tikai to, ko redzi. Skaidras cenas, bez pārsteigumiem rēķinā.</p>
-    </div>
-  </div>
-</section>
+<!-- ═══════════════ PIEVIENOT AUGU ═══════════════ -->
+<div id="page-add" class="page">
+  <h2>Pievienot Augu</h2>
 
-<section class="extra-section">
-  <div class="extra-box">
-    <h3>Nepietiek datu?</h3>
-    <p style="margin-bottom:12px;">Jebkurā plānā vari piepirkt papildu datus:</p>
-    <div class="extra-price">0.12 € / 1 GB</div>
-    <p style="margin-top:8px;font-size:0.82rem;color:var(--muted);">Spēkā līdz perioda beigām · Bez derīguma termiņa ierobežojuma</p>
+  <div class="card">
+    <div class="section-label">1. variants — AI meklēšana</div>
+    <p style="font-size:13px;color:#555;margin-bottom:10px;">
+      Ievadi auga nosaukumu un AI automātiski aizpildīs kopšanas informāciju.
+      Pēc tam vari pārskatīt un rediģēt pirms saglabāšanas.
+    </p>
+    <div class="form-group" style="display:flex;gap:8px;align-items:flex-end;">
+      <div style="flex:1;">
+        <label for="ai-name">Auga nosaukums</label>
+        <input type="text" id="ai-name" placeholder="piem. Monstera, Baziliks, Rozmarīns" />
+      </div>
+      <button class="btn btn-blue" onclick="doAiLookup()">🔍 Meklēt</button>
+    </div>
+    <p id="ai-status"></p>
   </div>
-</section>
 
-<footer>
-  <div>
-    <div class="footer-logo">LĪDAKA4</div>
-    <div style="margin-top:6px;">© 2025 LĪDAKA4. Visas tiesības aizsargātas.</div>
-  </div>
-  <div style="display:flex;gap:24px;flex-wrap:wrap;">
-    <a href="plans.html">Plāni</a>
-    <a href="cart.html">Grozs</a>
-    <a href="#">Privātuma Politika</a>
-    <a href="#">Sazināties</a>
-  </div>
-</footer>
+  <div class="card">
+    <div class="section-label">2. variants — Manuāla ievade / AI rezultātu rediģēšana</div>
 
-<div id="toast">✓ Pievienots grozam!</div>
+    <div class="form-group">
+      <label>Auga nosaukums *</label>
+      <input type="text" id="f-name" placeholder="piem. Monstera Deliciosa" />
+    </div>
+    <div class="form-group">
+      <label>Zinātniskais nosaukums</label>
+      <input type="text" id="f-sci" placeholder="piem. Monstera deliciosa" />
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div class="form-group">
+        <label>Laistīt ik pēc (dienām) *</label>
+        <input type="number" id="f-freq" min="1" max="365" placeholder="piem. 7" />
+      </div>
+      <div class="form-group">
+        <label>Pēdējās laistīšanas datums</label>
+        <input type="date" id="f-last" />
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div class="form-group">
+        <label>Min temperatūra (°C)</label>
+        <input type="number" id="f-tmin" placeholder="piem. 15" />
+      </div>
+      <div class="form-group">
+        <label>Max temperatūra (°C)</label>
+        <input type="number" id="f-tmax" placeholder="piem. 30" />
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div class="form-group">
+        <label>Gaisa mitrums</label>
+        <select id="f-hum">
+          <option value="">— izvēlēties —</option>
+          <option value="Zems (zem 40%)">Zems (zem 40%)</option>
+          <option value="Vidējs (40–60%)">Vidējs (40–60%)</option>
+          <option value="Augsts (virs 60%)">Augsts (virs 60%)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Apgaismojums</label>
+        <select id="f-sun">
+          <option value="">— izvēlēties —</option>
+          <option value="Pilna saule">Pilna saule</option>
+          <option value="Daļēja ēna">Daļēja ēna</option>
+          <option value="Netiešā gaisma">Netiešā gaisma</option>
+          <option value="Vāja gaisma">Vāja gaisma</option>
+        </select>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div class="form-group">
+        <label>Augsnes tips</label>
+        <input type="text" id="f-soil" placeholder="piem. labi drenējoša" />
+      </div>
+      <div class="form-group">
+        <label>Mēslošanas biežums</label>
+        <input type="text" id="f-fert" placeholder="piem. reizi mēnesī" />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Toksicitāte / Drošs mājdzīvniekiem</label>
+      <select id="f-tox">
+        <option value="">— izvēlēties —</option>
+        <option value="Drošs mājdzīvniekiem">Drošs mājdzīvniekiem ✅</option>
+        <option value="Toksisks mājdzīvniekiem">Toksisks mājdzīvniekiem ⚠️</option>
+        <option value="Toksisks kaķiem">Toksisks kaķiem 🐱</option>
+        <option value="Toksisks suņiem">Toksisks suņiem 🐕</option>
+        <option value="Nezināms">Nezināms</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Piezīmes / Papildu kopšanas padomi</label>
+      <textarea id="f-notes" rows="3" placeholder="Citas piezīmes..."></textarea>
+    </div>
+
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="btn btn-green" onclick="savePlant()">💾 Saglabāt augu</button>
+      <button class="btn btn-grey"  onclick="clearForm()">Notīrīt</button>
+    </div>
+    <p id="form-status"></p>
+  </div>
+</div>
+
+<!-- ═══════════════ IESTATĪJUMI ═══════════════ -->
+<div id="page-settings" class="page">
+  <h2>Iestatījumi</h2>
+
+  <div class="card">
+    <h3>🔑 OpenRouter API atslēga</h3>
+    <p style="font-size:13px;color:#555;margin-bottom:12px;">
+      AI meklēšanas funkcija izmanto <a href="https://openrouter.ai" target="_blank">OpenRouter</a>,
+      kur ir pieejami bezmaksas modeļi. Izpildi tālāk norādītos soļus, lai iegūtu bezmaksas atslēgu.
+    </p>
+
+    <div style="background:#f9fbe7;border:1px solid #c5e1a5;border-radius:6px;padding:14px;margin-bottom:16px;">
+      <strong style="font-size:14px;">Kā iegūt bezmaksas OpenRouter API atslēgu:</strong>
+      <div style="margin-top:10px;">
+        <div class="guide-step">
+          <div class="guide-num">1</div>
+          <div>Dodieties uz <a href="https://openrouter.ai" target="_blank"><strong>openrouter.ai</strong></a> un spied <strong>Sign In</strong>.</div>
+        </div>
+        <div class="guide-step">
+          <div class="guide-num">2</div>
+          <div>Izveido kontu ar Google vai e-pastu — tas ir bezmaksas, kredītkarte nav nepieciešama.</div>
+        </div>
+        <div class="guide-step">
+          <div class="guide-num">3</div>
+          <div>Pēc pieteikšanās spied uz profila attēla → <strong>Keys</strong>.</div>
+        </div>
+        <div class="guide-step">
+          <div class="guide-num">4</div>
+          <div>Spied <strong>Create Key</strong>, piešķir nosaukumu un nokopē parādīto atslēgu (sākas ar <code>sk-or-</code>).</div>
+        </div>
+        <div class="guide-step">
+          <div class="guide-num">5</div>
+          <div>Izvēlies režīmu zemāk — <strong>Auto</strong> nolasa atslēgu no <code>key.txt</code>, <strong>Manuāli</strong> ļauj to ievadīt rokā.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mode dropdown -->
+    <div class="form-group">
+      <label for="key-mode-select">Atslēgas avots</label>
+      <select id="key-mode-select" onchange="onKeyModeChange(this.value)">
+        <option value="auto">Auto</option>
+        <option value="manual">Manuāli — ievadīt pašam</option>
+      </select>
+    </div>
+
+    <!-- Auto mode info box -->
+    <div id="auto-key-box" style="background:#e8f5e9;border:1px solid #a5d6a7;border-radius:6px;padding:10px 14px;font-size:13px;">
+      <span id="file-key-status-line"></span>
+      <button class="btn btn-grey btn-small" style="margin-top:8px;" onclick="loadKeyFromFile(true)">🔄 Ielādēt tagad</button>
+    </div>
+
+    <!-- Manual mode input -->
+    <div id="manual-key-box" style="display:none;">
+      <div class="form-group" style="margin-top:0;">
+        <label>API atslēga</label>
+        <input type="password" id="set-apikey" placeholder="sk-or-..." />
+      </div>
+      <button class="btn btn-green" onclick="saveApiKey()">Saglabāt atslēgu</button>
+    </div>
+
+    <p id="key-status" style="margin-top:8px;"></p>
+  </div>
+
+  <div class="card">
+    <h3>🔔 Pārlūka paziņojumi</h3>
+    <p style="font-size:13px;color:#555;margin-bottom:12px;">
+      Saņem paziņojumu, kad ir laiks laistīt augu.
+      Darbojas darbvirsmā (Chrome, Firefox, Edge) un Android Chrome.
+      <br><em>Piezīme: iOS Safari neatbalsta tīmekļa paziņojumus parastas cilnes režīmā.</em>
+    </p>
+    <button class="btn btn-blue" onclick="requestNotifPerm()">Iespējot paziņojumus</button>
+    <p id="notif-status"></p>
+    <p style="margin-top:8px;font-size:12px;color:#888;">
+      Pašreizējā atļauja: <span id="notif-perm-display">—</span>
+    </p>
+  </div>
+
+  <div class="card">
+    <h3>🐛 Atkļūdošanas režīms</h3>
+    <p style="font-size:13px;color:#555;margin-bottom:12px;">
+      Ieslēdzot atkļūdošanu, parādīsies cilne "Atkļūdošana", kurā redzami visi API
+      pieprasījumi un atbildes. Noderīgi, ja AI meklēšana nedarbojas pareizi.
+    </p>
+    <div class="toggle-wrap">
+      <input type="checkbox" id="debug-toggle" onchange="toggleDebug(this.checked)" />
+      <label for="debug-toggle" style="font-weight:normal;margin:0;cursor:pointer;">Iespējot atkļūdošanu</label>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>🗑️ Dati</h3>
+    <p style="font-size:13px;color:#555;margin-bottom:10px;">Visi augu dati tiek glabāti pārlūka lokālajā krātuvē.</p>
+    <button class="btn btn-red" onclick="clearAllData()">Dzēst visus augus</button>
+  </div>
+</div>
+
+<!-- ═══════════════ ATKĻŪDOŠANA ═══════════════ -->
+<div id="page-debug" class="page">
+  <h2>🐛 Atkļūdošanas Žurnāls</h2>
+  <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center;">
+    <button class="btn btn-brown" onclick="clearDebugLog()">Notīrīt žurnālu</button>
+    <button class="btn btn-grey"  onclick="copyDebugLog()">Kopēt žurnālu</button>
+    <span id="debug-copy-msg" style="font-size:13px;color:#2e7d32;"></span>
+  </div>
+  <div id="debug-log">(Nav ierakstu. Mēģini veikt AI meklēšanu.)</div>
+</div>
+
+<!-- ═══════════════ REDIĢĒŠANAS MODĀLS ═══════════════ -->
+<div id="edit-modal" class="modal-bg">
+  <div class="modal-box">
+    <h3 style="margin-bottom:14px;">✏️ Rediģēt augu</h3>
+    <input type="hidden" id="edit-id" />
+
+    <div class="form-group">
+      <label>Auga nosaukums *</label>
+      <input type="text" id="e-name" />
+    </div>
+    <div class="form-group">
+      <label>Zinātniskais nosaukums</label>
+      <input type="text" id="e-sci" />
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <div class="form-group">
+        <label>Laistīt ik pēc (dienām) *</label>
+        <input type="number" id="e-freq" min="1" />
+      </div>
+      <div class="form-group">
+        <label>Pēdējā laistīšana</label>
+        <input type="date" id="e-last" />
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <div class="form-group">
+        <label>Min temp (°C)</label>
+        <input type="number" id="e-tmin" />
+      </div>
+      <div class="form-group">
+        <label>Max temp (°C)</label>
+        <input type="number" id="e-tmax" />
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <div class="form-group">
+        <label>Gaisa mitrums</label>
+        <select id="e-hum">
+          <option value="">— izvēlēties —</option>
+          <option value="Zems (zem 40%)">Zems</option>
+          <option value="Vidējs (40–60%)">Vidējs</option>
+          <option value="Augsts (virs 60%)">Augsts</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Apgaismojums</label>
+        <select id="e-sun">
+          <option value="">— izvēlēties —</option>
+          <option value="Pilna saule">Pilna saule</option>
+          <option value="Daļēja ēna">Daļēja ēna</option>
+          <option value="Netiešā gaisma">Netiešā gaisma</option>
+          <option value="Vāja gaisma">Vāja gaisma</option>
+        </select>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <div class="form-group">
+        <label>Augsnes tips</label>
+        <input type="text" id="e-soil" />
+      </div>
+      <div class="form-group">
+        <label>Mēslošana</label>
+        <input type="text" id="e-fert" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Toksicitāte</label>
+      <select id="e-tox">
+        <option value="">— izvēlēties —</option>
+        <option value="Drošs mājdzīvniekiem">Drošs mājdzīvniekiem ✅</option>
+        <option value="Toksisks mājdzīvniekiem">Toksisks mājdzīvniekiem ⚠️</option>
+        <option value="Toksisks kaķiem">Toksisks kaķiem 🐱</option>
+        <option value="Toksisks suņiem">Toksisks suņiem 🐕</option>
+        <option value="Nezināms">Nezināms</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Piezīmes</label>
+      <textarea id="e-notes" rows="3"></textarea>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="btn btn-green" onclick="saveEdit()">Saglabāt izmaiņas</button>
+      <button class="btn btn-grey"  onclick="closeEditModal()">Atcelt</button>
+    </div>
+    <p id="edit-status"></p>
+  </div>
+</div>
+
+<div id="toast"></div>
 
 <script>
-  // Cart logic with cookies
-  function getCart() {
-    try {
-      const c = document.cookie.split(';').find(r=>r.trim().startsWith('l4cart='));
-      return c ? JSON.parse(decodeURIComponent(c.trim().substring(7))) : [];
-    } catch { return []; }
+
+  /* ─── Debug logging ─── */
+
+  var debugEnabled = false;
+  var debugLines = [];
+
+  function dbLog(type, label, data) {
+    var time = new Date().toLocaleTimeString('lv-LV');
+    var text = '';
+    if (data === undefined || data === null) {
+      text = String(data);
+    } else if (typeof data === 'object') {
+      try { text = JSON.stringify(data, null, 2); } catch(e) { text = String(data); }
+    } else {
+      text = String(data);
+    }
+    debugLines.push({ time: time, type: type, label: label, text: text });
+    if (debugEnabled) {
+      refreshDebugPanel();
+    }
   }
-  function saveCart(cart) {
-    const exp = new Date(); exp.setFullYear(exp.getFullYear()+1);
-    document.cookie = 'l4cart=' + encodeURIComponent(JSON.stringify(cart)) + '; expires=' + exp.toUTCString() + '; path=/';
+
+  function refreshDebugPanel() {
+    var el = document.getElementById('debug-log');
+    if (!el) return;
+    if (debugLines.length === 0) {
+      el.textContent = '(Nav ierakstu. Mēģini veikt AI meklēšanu.)';
+      return;
+    }
+    var html = '';
+    for (var i = 0; i < debugLines.length; i++) {
+      var l = debugLines[i];
+      var cls = l.type === 'REQUEST'  ? 'log-REQUEST'
+              : l.type === 'RESPONSE' ? 'log-RESPONSE'
+              : l.type === 'ERROR'    ? 'log-ERROR'
+              : l.type === 'PARSE'    ? 'log-PARSE'
+              : 'log-INFO';
+      html += '<div class="log-line"><span class="log-time">[' + l.time + ']</span> '
+            + '<span class="' + cls + '">[' + l.type + '] ' + escHtml(l.label) + '</span>\n'
+            + escHtml(l.text) + '</div>';
+    }
+    el.innerHTML = html;
+    el.scrollTop = el.scrollHeight;
   }
-  function updateCartBadge() {
-    const cart = getCart();
-    const total = cart.reduce((s,i)=>s+i.qty,0);
-    const el = document.getElementById('cart-count');
-    if (total > 0) { el.style.display='flex'; el.textContent=total; }
-    else { el.style.display='none'; }
+
+  function clearDebugLog() {
+    debugLines = [];
+    refreshDebugPanel();
   }
-  function addToCart(name, price) {
-    const cart = getCart();
-    const ex = cart.find(i=>i.name===name);
-    if (ex) ex.qty++; else cart.push({name,price,qty:1});
-    saveCart(cart);
-    updateCartBadge();
-    showToast('✓ ' + name + ' pievienots grozam!');
+
+  function copyDebugLog() {
+    var text = '';
+    for (var i = 0; i < debugLines.length; i++) {
+      var l = debugLines[i];
+      text += '[' + l.time + '] [' + l.type + '] ' + l.label + '\n' + l.text + '\n\n';
+    }
+    navigator.clipboard.writeText(text).then(function() {
+      var msg = document.getElementById('debug-copy-msg');
+      msg.textContent = '✅ Nokopēts!';
+      setTimeout(function() { msg.textContent = ''; }, 2000);
+    });
   }
-  function showToast(msg) {
-    const t = document.getElementById('toast');
-    t.textContent = msg; t.classList.add('show');
-    setTimeout(()=>t.classList.remove('show'), 2600);
+
+  function toggleDebug(on) {
+    debugEnabled = on;
+    var btn = document.getElementById('nav-debug');
+    btn.style.display = on ? 'inline-block' : 'none';
+    if (!on && document.getElementById('page-debug').classList.contains('active')) {
+      showPage('plants');
+    }
+    dbLog('INFO', 'Atkļūdošanas režīms mainīts', on ? 'Ieslēgts' : 'Izslēgts');
   }
-  updateCartBadge();
+
+  /* ─── Storage ─── */
+
+  function getPlants() {
+    return JSON.parse(localStorage.getItem('plants') || '[]');
+  }
+
+  function savePlants(list) {
+    localStorage.setItem('plants', JSON.stringify(list));
+  }
+
+  /* ─── Navigation ─── */
+
+  function showPage(name) {
+    document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
+    document.querySelectorAll('nav button').forEach(function(b) { b.classList.remove('active'); });
+    document.getElementById('page-' + name).classList.add('active');
+    document.getElementById('nav-' + name).classList.add('active');
+    if (name === 'plants')   renderPlants();
+    if (name === 'calendar') renderCalendar();
+    if (name === 'settings') refreshSettings();
+    if (name === 'debug')    refreshDebugPanel();
+  }
+
+  /* ─── Toast ─── */
+
+  function showToast(msg, duration) {
+    if (!duration) duration = 3000;
+    var t = document.getElementById('toast');
+    t.textContent = msg;
+    t.style.display = 'block';
+    setTimeout(function() { t.style.display = 'none'; }, duration);
+  }
+
+  /* ─── Helpers ─── */
+
+  function todayStr() {
+    return new Date().toISOString().split('T')[0];
+  }
+
+  function nextWateringDate(plant) {
+    if (!plant.last_watered || !plant.frequency) return null;
+    var d = new Date(plant.last_watered);
+    d.setDate(d.getDate() + plant.frequency);
+    return d.toISOString().split('T')[0];
+  }
+
+  function escHtml(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  function pad2(n) { return String(n).padStart(2, '0'); }
+
+  /* ─── Render plants ─── */
+
+  function renderPlants() {
+    var plants = getPlants();
+    var container = document.getElementById('plants-list');
+    var today = todayStr();
+
+    if (plants.length === 0) {
+      container.innerHTML = '<div class="card" style="color:#666;text-align:center;padding:30px;"><p>Vēl nav pievienots neviens augs. Dodies uz <strong>Pievienot Augu</strong>, lai sāktu!</p></div>';
+      return;
+    }
+
+    var html = '';
+    for (var i = 0; i < plants.length; i++) {
+      var p = plants[i];
+      var next = nextWateringDate(p);
+      var badgeClass, badgeText;
+
+      if (!next) {
+        badgeClass = 'badge-ok';
+        badgeText = 'Nav iestatīts grafiks';
+      } else if (next < today) {
+        badgeClass = 'badge-overdue';
+        badgeText = '⚠️ Nokavēts! Bija jālaiš ' + next;
+      } else if (next === today) {
+        badgeClass = 'badge-today';
+        badgeText = '💧 Laistīt šodien!';
+      } else {
+        badgeClass = 'badge-ok';
+        badgeText = '✅ Nākamā: ' + next;
+      }
+
+      var metaItems = '';
+      if (p.frequency)              metaItems += '<div class="meta-item">💧 Ik pēc <span>' + p.frequency + ' dienām</span></div>';
+      if (p.temp_min || p.temp_max) metaItems += '<div class="meta-item">🌡️ <span>' + (p.temp_min || '?') + '–' + (p.temp_max || '?') + '°C</span></div>';
+      if (p.humidity)               metaItems += '<div class="meta-item">💦 Mitrums: <span>' + escHtml(p.humidity) + '</span></div>';
+      if (p.sunlight)               metaItems += '<div class="meta-item">☀️ <span>' + escHtml(p.sunlight) + '</span></div>';
+      if (p.soil)                   metaItems += '<div class="meta-item">🌱 Augsne: <span>' + escHtml(p.soil) + '</span></div>';
+      if (p.fertilize)              metaItems += '<div class="meta-item">🧪 Mēslošana: <span>' + escHtml(p.fertilize) + '</span></div>';
+      if (p.toxicity)               metaItems += '<div class="meta-item">🐾 <span>' + escHtml(p.toxicity) + '</span></div>';
+
+      html += '<div class="card">'
+        + '<div class="plant-header">'
+        + '<div><h3>🌿 ' + escHtml(p.name) + '</h3>'
+        + (p.sci_name ? '<em style="font-size:12px;color:#888;">' + escHtml(p.sci_name) + '</em>' : '')
+        + '<br><span class="badge ' + badgeClass + '">' + badgeText + '</span></div>'
+        + '<div style="display:flex;gap:6px;flex-wrap:wrap;">'
+        + '<button class="btn btn-green btn-small" onclick="markWatered(' + i + ')">💧 Laistīts</button>'
+        + '<button class="btn btn-blue btn-small" onclick="openEditModal(' + i + ')">✏️ Rediģēt</button>'
+        + '<button class="btn btn-red btn-small" onclick="deletePlant(' + i + ')">🗑️</button>'
+        + '</div></div>'
+        + (metaItems ? '<div class="plant-meta">' + metaItems + '</div>' : '')
+        + (p.notes ? '<p class="plant-notes">📝 ' + escHtml(p.notes) + '</p>' : '')
+        + (p.last_watered ? '<p style="font-size:12px;color:#aaa;margin-top:6px;">Pēdējo reizi laistīts: ' + p.last_watered + '</p>' : '')
+        + '</div>';
+    }
+    container.innerHTML = html;
+  }
+
+  function markWatered(index) {
+    var plants = getPlants();
+    plants[index].last_watered = todayStr();
+    savePlants(plants);
+    renderPlants();
+    showToast('✅ Atzīmēts kā laistīts šodien!');
+  }
+
+  function deletePlant(index) {
+    if (!confirm('Dzēst šo augu?')) return;
+    var plants = getPlants();
+    plants.splice(index, 1);
+    savePlants(plants);
+    renderPlants();
+    showToast('Augs dzēsts.');
+  }
+
+  /* ─── AI Lookup ─── */
+
+  function doAiLookup() {
+    var name   = document.getElementById('ai-name').value.trim();
+    var apiKey = getApiKey();
+    var status = document.getElementById('ai-status');
+
+    if (!name) {
+      status.innerHTML = '<p class="msg-error">Lūdzu ievadi auga nosaukumu.</p>';
+      return;
+    }
+    if (!apiKey) {
+      status.innerHTML = '<p class="msg-error">Nav atrasta API atslēga. Vispirms pievienojiet to Iestatījumos.</p>';
+      return;
+    }
+
+    status.innerHTML = '<p class="msg-info">⏳ Meklē auga informāciju, lūdzu uzgaidi...</p>';
+
+    var prompt = 'Tu esi augu kopšanas eksperts. Atgriez informāciju par augu ar nosaukumu "' + name + '" tikai JSON formātā. Nekādas citas atbildes, skaidrojumus vai markdown — tikai neapstrādāts JSON.\n\n'
+      + 'Ja augs ir reāls un identificējams, izmanto šādu struktūru:\n'
+      + '{\n'
+      + '  "valid": true,\n'
+      + '  "name": "Auga parastais nosaukums latviešu valodā",\n'
+      + '  "scientific_name": "Zinātniskais nosaukums",\n'
+      + '  "watering_frequency_days": <vesels skaitlis — dienu skaits starp laistīšanām>,\n'
+      + '  "temperature_min_c": <vesels skaitlis — minimālā temperatūra Celsija grādos>,\n'
+      + '  "temperature_max_c": <vesels skaitlis — maksimālā temperatūra Celsija grādos>,\n'
+      + '  "humidity": "<viens no: low, medium, high>",\n'
+      + '  "sunlight": "<viens no: Full Sun, Partial Shade, Indirect Light, Low Light>",\n'
+      + '  "soil_type": "<augsnes apraksts latviešu valodā>",\n'
+      + '  "fertilizing_frequency": "<mēslošanas biežums latviešu valodā, piem. reizi mēnesī>",\n'
+      + '  "toxicity": "<viens no: Drošs mājdzīvniekiem, Toksisks mājdzīvniekiem, Toksisks kaķiem, Toksisks suņiem, Nezināms>",\n'
+      + '  "notes": "<1-2 teikumi ar galvenajiem kopšanas padomiem latviešu valodā>"\n'
+      + '}\n\n'
+      + 'Ja ievade nav reāls auga nosaukums vai to nevar identificēt, atgrieziet tieši:\n'
+      + '{"valid": false}\n\n'
+      + 'Atbildē tikai JSON. Nekādas papildu rindas.';
+
+    // Fetch current free text models from OpenRouter, then try them in order
+    status.innerHTML = '<p class="msg-info">⏳ Iegūst pieejamo modeļu sarakstu...</p>';
+
+    // Models known to give good multilingual text responses — tried first in order
+    var PREFERRED = [
+      'google/gemma-4-31b-it:free',
+      'google/gemma-4-26b-a4b-it:free',
+      'openai/gpt-oss-120b:free',
+      'openai/gpt-oss-20b:free',
+      'meta-llama/llama-3.3-70b-instruct:free',
+      'nousresearch/hermes-3-llama-3.1-405b:free',
+      'cognitivecomputations/dolphin-mistral-24b-venice-edition:free'
+    ];
+
+    // Skip these — reasoning models waste tokens thinking, tiny models produce garbage,
+    // music/ocr/image models are wrong type, and some providers give bad Latvian
+    var SKIP_KEYWORDS = [
+      'reasoning','thinking','omni',          // reasoning models burn all tokens
+      'ocr','vision','vl','image','audio',    // wrong modality
+      'embed','speech','tts','clip','lyria',  // wrong type
+      'coder','code',                         // coding models
+      'nano','1.2b','1b-','2b-','3b-','9b-', // too small
+      'baidu','minimax','z-ai','liquid',      // poor Latvian quality
+      'cobuddy','owl-alpha'                   // unknown/unreliable
+    ];
+
+    function isGoodModel(id) {
+      var lower = id.toLowerCase();
+      for (var k = 0; k < SKIP_KEYWORDS.length; k++) {
+        if (lower.indexOf(SKIP_KEYWORDS[k]) !== -1) return false;
+      }
+      return true;
+    }
+
+    fetch('https://openrouter.ai/api/v1/models', {
+      headers: { 'Authorization': 'Bearer ' + apiKey }
+    })
+    .then(function(res) { return res.json(); })
+    .then(function(modelsData) {
+      var allModels = modelsData.data || [];
+
+      // Collect all free text models that pass the filter
+      var freePassing = [];
+      for (var m = 0; m < allModels.length; m++) {
+        var mod = allModels[m];
+        var p = mod.pricing || {};
+        var isFree = (parseFloat(p.prompt) === 0 && parseFloat(p.completion) === 0);
+        if (isFree && isGoodModel(mod.id)) {
+          freePassing.push(mod.id);
+        }
+      }
+
+      // Build final list: preferred models that exist in the live list first,
+      // then any remaining passing models as fallback (shuffled)
+      var MODELS = [];
+      var freeSet = {};
+      for (var f = 0; f < freePassing.length; f++) freeSet[freePassing[f]] = true;
+
+      for (var pr = 0; pr < PREFERRED.length; pr++) {
+        if (freeSet[PREFERRED[pr]]) {
+          MODELS.push(PREFERRED[pr]);
+          delete freeSet[PREFERRED[pr]];
+        }
+      }
+
+      // Add remaining non-preferred models shuffled as last-resort fallbacks
+      var rest = [];
+      for (var id in freeSet) rest.push(id);
+      for (var i = rest.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var tmp = rest[i]; rest[i] = rest[j]; rest[j] = tmp;
+      }
+      MODELS = MODELS.concat(rest);
+
+      dbLog('INFO', 'Modeļu saraksts (' + MODELS.length + ' kopā, ' + Math.min(PREFERRED.length, MODELS.length) + ' prioritārie)', MODELS);
+
+      if (MODELS.length === 0) {
+        status.innerHTML = '<p class="msg-error">Nav atrasts neviens piemērots bezmaksas modelis. Pārbaudi API atslēgu.</p>';
+        return;
+      }
+
+      function tryModel(modelIndex) {
+        if (modelIndex >= MODELS.length) {
+          status.innerHTML = '<p class="msg-error">Visi ' + MODELS.length + ' bezmaksas modeļi ir pārslogoti. Mēģini pēc dažām minūtēm.</p>';
+          dbLog('ERROR', 'Visi modeļi izsmelti', MODELS.length + ' modeļi izmēģināti');
+          return;
+        }
+
+        var model = MODELS[modelIndex];
+        var requestBody = {
+          model: model,
+          messages: [{ role: 'user', content: prompt }],
+          max_tokens: 4096
+        };
+
+        dbLog('REQUEST', 'Mēģina modeli ' + (modelIndex+1) + '/' + MODELS.length + ': ' + model, { model: model, prompt: prompt });
+        status.innerHTML = '<p class="msg-info">⏳ Mēģina: ' + model + ' (' + (modelIndex+1) + '/' + MODELS.length + ')...</p>';
+
+        fetch('https://openrouter.ai/api/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + apiKey,
+            'HTTP-Referer': window.location.href,
+            'X-Title': 'Augu Laistisanas Atgadinajums'
+          },
+          body: JSON.stringify(requestBody)
+        })
+        .then(function(res) {
+          dbLog('INFO', 'HTTP statuss (' + model + ')', res.status + ' ' + res.statusText);
+          return res.json().then(function(data) {
+            return { ok: res.ok, status: res.status, data: data };
+          });
+        })
+        .then(function(result) {
+          dbLog('RESPONSE', 'API atbilde (' + model + ')', result.data);
+
+          if (result.status === 429 || result.status === 404 || result.status === 400) {
+            var retryAfter = 0;
+            if (result.status === 429) {
+              var meta = result.data && result.data.error && result.data.error.metadata;
+              retryAfter = (meta && meta.retry_after_seconds) ? Math.ceil(meta.retry_after_seconds * 1000) : 0;
+            }
+            dbLog('INFO', model + ' nav pieejams (' + result.status + '), gaida ' + retryAfter + 'ms', '');
+            setTimeout(function() { tryModel(modelIndex + 1); }, retryAfter);
+            return;
+          }
+
+          if (!result.ok) {
+            var errMsg = (result.data && result.data.error && result.data.error.message) ? result.data.error.message : 'Nezināma kļūda';
+            dbLog('ERROR', 'API kļūda', 'HTTP ' + result.status + ': ' + errMsg);
+            status.innerHTML = '<p class="msg-error">API kļūda ' + result.status + ': ' + escHtml(errMsg) + '</p>';
+            return;
+          }
+
+      var choice = result.data && result.data.choices && result.data.choices[0];
+      var finishReason = choice && choice.finish_reason;
+      var raw = (choice && choice.message && choice.message.content) || '';
+
+      dbLog('INFO', 'Neapstrādāta modeļa atbilde', raw || '(tukšs — content ir null)');
+      dbLog('INFO', 'finish_reason', finishReason);
+
+      // If content is empty, the model burned all tokens on reasoning and produced nothing
+      if (!raw.trim()) {
+        var msg = finishReason === 'length'
+          ? 'Modelis izmantoja visus žetonus domāšanai un neatgrieza atbildi. Mēģini vēlreiz.'
+          : 'AI atbilde bija tukša. Mēģini vēlreiz.';
+        dbLog('ERROR', 'Tukša atbilde', msg);
+        status.innerHTML = '<p class="msg-error">⚠️ ' + msg + '</p>';
+        return;
+      }
+
+      // Strip markdown fences if the model wraps in them
+      var cleaned = raw.replace(/```json/g, '').replace(/```/g, '').trim();
+
+      // Some models add text before the JSON — try to find the first { 
+      var braceIndex = cleaned.indexOf('{');
+      if (braceIndex > 0) {
+        dbLog('INFO', 'Atrasts teksts pirms JSON, izlaižam', cleaned.substring(0, braceIndex));
+        cleaned = cleaned.substring(braceIndex);
+      }
+
+      // And trim anything after the last }
+      var lastBrace = cleaned.lastIndexOf('}');
+      if (lastBrace !== -1 && lastBrace < cleaned.length - 1) {
+        cleaned = cleaned.substring(0, lastBrace + 1);
+      }
+
+      dbLog('INFO', 'Attīrīts teksts pirms parsēšanas', cleaned);
+
+      var plant;
+      try {
+        plant = JSON.parse(cleaned);
+        dbLog('RESPONSE', 'Parsētais JSON', plant);
+      } catch(parseErr) {
+        dbLog('PARSE', 'JSON parsēšanas kļūda, mēģina labot', parseErr.message);
+
+        // Model got cut off mid-response (finish_reason: length).
+        // Repair: close any open string, then close the object.
+        var repaired = cleaned;
+        var quoteCount = (repaired.match(/"/g) || []).length;
+        if (quoteCount % 2 !== 0) repaired += '"';
+        if (repaired.trim().slice(-1) !== '}') repaired += '}';
+
+        dbLog('INFO', 'Labotais teksts', repaired);
+
+        try {
+          plant = JSON.parse(repaired);
+          dbLog('INFO', 'JSON labošana izdevās', plant);
+        } catch(repairErr) {
+          dbLog('PARSE', 'JSON labošana neizdevās', repairErr.message);
+          status.innerHTML = '<p class="msg-error">Nevarēja nolasīt AI atbildi (atbilde saīsināta). Mēģini vēlreiz.</p>';
+          return;
+        }
+      }
+
+      if (!plant.valid) {
+        dbLog('INFO', 'Augs netika atrasts (valid: false)', plant);
+        status.innerHTML = '<p class="msg-error">❌ Augs nav atrasts vai ievadīts nepareizs nosaukums. Pārbaudi pareizrakstību un mēģini vēlreiz.</p>';
+        return;
+      }
+
+      // Fill the form
+      document.getElementById('f-name').value  = plant.name || name;
+      document.getElementById('f-sci').value   = plant.scientific_name || '';
+      document.getElementById('f-freq').value  = plant.watering_frequency_days || '';
+      document.getElementById('f-tmin').value  = plant.temperature_min_c || '';
+      document.getElementById('f-tmax').value  = plant.temperature_max_c || '';
+      document.getElementById('f-soil').value  = plant.soil_type || '';
+      document.getElementById('f-fert').value  = plant.fertilizing_frequency || '';
+      document.getElementById('f-notes').value = plant.notes || '';
+      setSelectValue('f-hum', humLabel(plant.humidity));
+      setSelectValue('f-sun', plant.sunlight || '');
+      setSelectValue('f-tox', plant.toxicity || '');
+
+      dbLog('INFO', 'Forma aizpildīta veiksmīgi', plant.name);
+      status.innerHTML = '<p class="msg-success">✅ Informācija ielādēta! Pārbaudi formu zemāk, iestatī laistīšanas datumu un saglabā.</p>';
+    })
+      .catch(function(err) {
+        dbLog('ERROR', 'Tīkla vai cita kļūda (' + model + ')', err.message);
+        // Network error on this model — try next
+        tryModel(modelIndex + 1);
+        })
+        .catch(function(err) {
+          dbLog('ERROR', 'Tīkla kļūda (' + model + ')', err.message);
+          tryModel(modelIndex + 1);
+        });
+      } // end tryModel
+
+      tryModel(0);
+    })
+    .catch(function(err) {
+      dbLog('ERROR', 'Nevarēja iegūt modeļu sarakstu', err.message);
+      status.innerHTML = '<p class="msg-error">Nevarēja iegūt modeļu sarakstu: ' + escHtml(err.message) + '</p>';
+    });
+  }
+
+  function humLabel(val) {
+    if (!val) return '';
+    var v = val.toLowerCase();
+    if (v === 'low')    return 'Zems (zem 40%)';
+    if (v === 'medium') return 'Vidējs (40–60%)';
+    if (v === 'high')   return 'Augsts (virs 60%)';
+    return '';
+  }
+
+  function setSelectValue(id, val) {
+    if (!val) return;
+    var sel = document.getElementById(id);
+    for (var i = 0; i < sel.options.length; i++) {
+      if (sel.options[i].value === val) { sel.value = val; return; }
+    }
+    var lower = val.toLowerCase();
+    for (var j = 0; j < sel.options.length; j++) {
+      if (sel.options[j].value.toLowerCase().indexOf(lower) !== -1) { sel.value = sel.options[j].value; return; }
+    }
+  }
+
+  /* ─── Save plant ─── */
+
+  function savePlant() {
+    var name   = document.getElementById('f-name').value.trim();
+    var freq   = parseInt(document.getElementById('f-freq').value);
+    var status = document.getElementById('form-status');
+
+    if (!name) { status.innerHTML = '<p class="msg-error">Auga nosaukums ir obligāts.</p>'; return; }
+    if (!freq || freq < 1) { status.innerHTML = '<p class="msg-error">Laistīšanas biežums ir obligāts (vismaz 1 diena).</p>'; return; }
+
+    var plant = {
+      id:           Date.now(),
+      name:         name,
+      sci_name:     document.getElementById('f-sci').value.trim(),
+      frequency:    freq,
+      last_watered: document.getElementById('f-last').value || todayStr(),
+      temp_min:     document.getElementById('f-tmin').value,
+      temp_max:     document.getElementById('f-tmax').value,
+      humidity:     document.getElementById('f-hum').value,
+      sunlight:     document.getElementById('f-sun').value,
+      soil:         document.getElementById('f-soil').value.trim(),
+      fertilize:    document.getElementById('f-fert').value.trim(),
+      toxicity:     document.getElementById('f-tox').value,
+      notes:        document.getElementById('f-notes').value.trim()
+    };
+
+    var plants = getPlants();
+    plants.push(plant);
+    savePlants(plants);
+
+    status.innerHTML = '<p class="msg-success">✅ Augs saglabāts!</p>';
+    clearForm();
+    setTimeout(function() { status.innerHTML = ''; }, 3000);
+    showToast('🌿 ' + name + ' pievienots!');
+  }
+
+  function clearForm() {
+    var fields = ['f-name','f-sci','f-freq','f-tmin','f-tmax','f-soil','f-fert','f-notes','f-last'];
+    for (var i = 0; i < fields.length; i++) document.getElementById(fields[i]).value = '';
+    var selects = ['f-hum','f-sun','f-tox'];
+    for (var j = 0; j < selects.length; j++) document.getElementById(selects[j]).value = '';
+    document.getElementById('ai-name').value = '';
+    document.getElementById('ai-status').innerHTML = '';
+    document.getElementById('f-last').value = todayStr();
+  }
+
+  /* ─── Edit modal ─── */
+
+  function openEditModal(index) {
+    var plants = getPlants();
+    var p = plants[index];
+    document.getElementById('edit-id').value  = index;
+    document.getElementById('e-name').value   = p.name || '';
+    document.getElementById('e-sci').value    = p.sci_name || '';
+    document.getElementById('e-freq').value   = p.frequency || '';
+    document.getElementById('e-last').value   = p.last_watered || '';
+    document.getElementById('e-tmin').value   = p.temp_min || '';
+    document.getElementById('e-tmax').value   = p.temp_max || '';
+    document.getElementById('e-soil').value   = p.soil || '';
+    document.getElementById('e-fert').value   = p.fertilize || '';
+    document.getElementById('e-notes').value  = p.notes || '';
+    setSelectValue('e-hum', p.humidity || '');
+    setSelectValue('e-sun', p.sunlight || '');
+    setSelectValue('e-tox', p.toxicity || '');
+    document.getElementById('edit-status').innerHTML = '';
+    document.getElementById('edit-modal').classList.add('open');
+  }
+
+  function closeEditModal() {
+    document.getElementById('edit-modal').classList.remove('open');
+  }
+
+  function saveEdit() {
+    var index  = parseInt(document.getElementById('edit-id').value);
+    var name   = document.getElementById('e-name').value.trim();
+    var freq   = parseInt(document.getElementById('e-freq').value);
+    var status = document.getElementById('edit-status');
+
+    if (!name) { status.innerHTML = '<p class="msg-error">Nosaukums ir obligāts.</p>'; return; }
+    if (!freq || freq < 1) { status.innerHTML = '<p class="msg-error">Biežumam jābūt vismaz 1 diena.</p>'; return; }
+
+    var plants = getPlants();
+    var old = plants[index];
+    plants[index] = {
+      id:           old.id,
+      name:         name,
+      sci_name:     document.getElementById('e-sci').value.trim(),
+      frequency:    freq,
+      last_watered: document.getElementById('e-last').value || old.last_watered,
+      temp_min:     document.getElementById('e-tmin').value,
+      temp_max:     document.getElementById('e-tmax').value,
+      humidity:     document.getElementById('e-hum').value,
+      sunlight:     document.getElementById('e-sun').value,
+      soil:         document.getElementById('e-soil').value.trim(),
+      fertilize:    document.getElementById('e-fert').value.trim(),
+      toxicity:     document.getElementById('e-tox').value,
+      notes:        document.getElementById('e-notes').value.trim()
+    };
+
+    savePlants(plants);
+    closeEditModal();
+    renderPlants();
+    showToast('✅ Izmaiņas saglabātas!');
+  }
+
+  /* ─── Calendar ─── */
+
+  var calYear  = new Date().getFullYear();
+  var calMonth = new Date().getMonth();
+
+  var MONTH_NAMES = ['Janvāris','Februāris','Marts','Aprīlis','Maijs','Jūnijs',
+                     'Jūlijs','Augusts','Septembris','Oktobris','Novembris','Decembris'];
+  var DAY_NAMES   = ['Sv','Pr','Ot','Tr','Ce','Pk','Se'];
+
+  function calPrev() { calMonth--; if (calMonth < 0)  { calMonth = 11; calYear--; } renderCalendar(); }
+  function calNext() { calMonth++; if (calMonth > 11) { calMonth = 0;  calYear++; } renderCalendar(); }
+
+  function buildWateringMap(year, month) {
+    var plants = getPlants();
+    var map    = {};
+    var first  = new Date(year, month, 1);
+    var last   = new Date(year, month + 1, 0);
+
+    for (var i = 0; i < plants.length; i++) {
+      var plant = plants[i];
+      if (!plant.last_watered || !plant.frequency) continue;
+
+      var d = new Date(plant.last_watered);
+      while (d > first) d.setDate(d.getDate() - plant.frequency);
+      while (d < first) d.setDate(d.getDate() + plant.frequency);
+
+      while (d <= last) {
+        if (d.getMonth() === month && d.getFullYear() === year) {
+          var key = d.toISOString().split('T')[0];
+          if (!map[key]) map[key] = [];
+          map[key].push(plant.name);
+        }
+        d.setDate(d.getDate() + plant.frequency);
+      }
+    }
+    return map;
+  }
+
+  function renderCalendar() {
+    document.getElementById('cal-title').textContent = MONTH_NAMES[calMonth] + ' ' + calYear;
+
+    var waterMap    = buildWateringMap(calYear, calMonth);
+    var today       = todayStr();
+    var daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+    var firstDow    = new Date(calYear, calMonth, 1).getDay();
+
+    var html = '';
+    for (var n = 0; n < DAY_NAMES.length; n++) {
+      html += '<div class="cal-day-name">' + DAY_NAMES[n] + '</div>';
+    }
+
+    for (var e = 0; e < firstDow; e++) {
+      html += '<div class="cal-cell empty"></div>';
+    }
+
+    for (var day = 1; day <= daysInMonth; day++) {
+      var dateStr  = calYear + '-' + pad2(calMonth + 1) + '-' + pad2(day);
+      var isToday  = dateStr === today;
+      var dayPlants = waterMap[dateStr];
+      var hasWater = dayPlants && dayPlants.length > 0;
+      var dots = '';
+      if (hasWater) {
+        dots = '<div class="cal-dots">';
+        for (var d = 0; d < dayPlants.length; d++) dots += '<span class="cal-dot"></span>';
+        dots += '</div>';
+      }
+      var safeArr = hasWater ? JSON.stringify(dayPlants).replace(/"/g, '&quot;') : '[]';
+      html += '<div class="cal-cell' + (isToday ? ' today' : '') + (hasWater ? ' has-water' : '') + '"'
+            + ' onclick="showDayDetail(\'' + dateStr + '\',' + safeArr + ')">'
+            + '<div>' + day + '</div>' + dots + '</div>';
+    }
+
+    document.getElementById('cal-grid').innerHTML = html;
+    document.getElementById('day-detail').innerHTML = '';
+  }
+
+  function showDayDetail(dateStr, plantsArr) {
+    var det = document.getElementById('day-detail');
+    if (!plantsArr || plantsArr.length === 0) {
+      det.innerHTML = '<div class="card" style="color:#666;">' + dateStr + ': Nevienam augam nav jābūt laistītam.</div>';
+    } else {
+      var items = '';
+      for (var i = 0; i < plantsArr.length; i++) {
+        items += '<li>' + escHtml(plantsArr[i]) + '</li>';
+      }
+      det.innerHTML = '<div class="card"><strong>💧 ' + dateStr + ' — Laistīt šos augus:</strong>'
+        + '<ul style="margin-top:8px;padding-left:20px;line-height:1.8;">' + items + '</ul></div>';
+    }
+  }
+
+  /* ─── Settings ─── */
+
+  // Tracks whether the active key came from key.txt
+  var keyFromFile = false;
+
+  function getApiKey() {
+    return localStorage.getItem('or_api_key') || '';
+  }
+
+  function maskKey(k) {
+    if (!k || k.length < 8) return '***';
+    return k.substring(0, 8) + '...' + k.slice(-4);
+  }
+
+  // Try to load key.txt from the same directory as the HTML file.
+  // Works in Firefox for local files. Chrome blocks this by default on file://.
+  function onKeyModeChange(mode) {
+    localStorage.setItem('key_mode', mode);
+    if (mode === 'auto') {
+      document.getElementById('auto-key-box').style.display = 'block';
+      document.getElementById('manual-key-box').style.display = 'none';
+      loadKeyFromFile(true);
+    } else {
+      document.getElementById('auto-key-box').style.display = 'none';
+      document.getElementById('manual-key-box').style.display = 'block';
+      var existing = getApiKey();
+      if (existing) document.getElementById('set-apikey').value = existing;
+      document.getElementById('key-status').innerHTML = '';
+      dbLog('INFO', 'Pārslēgts uz manuālo režīmu', '');
+    }
+  }
+
+  function loadKeyFromFile(showStatus) {
+    dbLog('INFO', 'Mēģina ielādēt key.txt', window.location.href);
+    fetch('./key.txt')
+      .then(function(res) {
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        return res.text();
+      })
+      .then(function(text) {
+        var key = text.trim();
+        if (!key) throw new Error('key.txt ir tukšs');
+        localStorage.setItem('or_api_key', key);
+        keyFromFile = true;
+        var line = document.getElementById('file-key-status-line');
+        if (line) line.textContent = 'Atslēga tika dabūta automātiski';
+        dbLog('INFO', 'Atslēga ielādēta no key.txt', maskKey(key));
+        if (showStatus) {
+          document.getElementById('key-status').innerHTML = '<p class="msg-success">✅ Atslēga ielādēta no key.txt!</p>';
+          setTimeout(function() { document.getElementById('key-status').innerHTML = ''; }, 3000);
+        }
+      })
+      .catch(function(err) {
+        dbLog('INFO', 'key.txt nav pieejams', err.message);
+        keyFromFile = false;
+        var line = document.getElementById('file-key-status-line');
+        if (line) line.textContent = '⚠️ key.txt nav atrasts: ' + err.message;
+        if (showStatus) {
+          document.getElementById('key-status').innerHTML = '<p class="msg-error">key.txt nav atrasts: ' + err.message + '</p>';
+        }
+      });
+  }
+
+  function refreshSettings() {
+    document.getElementById('debug-toggle').checked = debugEnabled;
+    updateNotifDisplay();
+    // Restore dropdown state
+    var mode = localStorage.getItem('key_mode') || 'auto';
+    document.getElementById('key-mode-select').value = mode;
+    if (mode === 'auto') {
+      document.getElementById('auto-key-box').style.display = 'block';
+      document.getElementById('manual-key-box').style.display = 'none';
+      // Show current file key status without re-fetching
+      var existing = getApiKey();
+      var line = document.getElementById('file-key-status-line');
+      if (line && existing && keyFromFile) line.textContent = 'Atslēga tika dabūta automātiski';
+    } else {
+      document.getElementById('auto-key-box').style.display = 'none';
+      document.getElementById('manual-key-box').style.display = 'block';
+      var existing2 = getApiKey();
+      if (existing2) document.getElementById('set-apikey').value = existing2;
+    }
+  }
+
+  function saveApiKey() {
+    var key = document.getElementById('set-apikey').value.trim();
+    if (!key) { document.getElementById('key-status').innerHTML = '<p class="msg-error">Lūdzu vispirms ielīmē atslēgu.</p>'; return; }
+    localStorage.setItem('or_api_key', key);
+    keyFromFile = false;
+    document.getElementById('key-status').innerHTML = '<p class="msg-success">✅ API atslēga saglabāta.</p>';
+    setTimeout(function() { document.getElementById('key-status').innerHTML = ''; }, 3000);
+    dbLog('INFO', 'Manuālā API atslēga saglabāta', '(atslēga slēpta)');
+  }
+
+  function updateNotifDisplay() {
+    var el = document.getElementById('notif-perm-display');
+    if (!('Notification' in window)) {
+      el.textContent = 'netiek atbalstīts';
+    } else {
+      var lv = { granted: 'atļauts', denied: 'liegts', default: 'nav izvēlēts' };
+      el.textContent = lv[Notification.permission] || Notification.permission;
+    }
+  }
+
+  function requestNotifPerm() {
+    if (!('Notification' in window)) {
+      document.getElementById('notif-status').innerHTML = '<p class="msg-error">Šī pārlūkprogramma neatbalsta paziņojumus.</p>';
+      return;
+    }
+    Notification.requestPermission().then(function(perm) {
+      updateNotifDisplay();
+      if (perm === 'granted') {
+        document.getElementById('notif-status').innerHTML = '<p class="msg-success">✅ Paziņojumi iespējoti!</p>';
+        checkAndNotify();
+      } else if (perm === 'denied') {
+        document.getElementById('notif-status').innerHTML = '<p class="msg-error">Atļauja liegta. Iespējams, jāmaina pārlūka iestatījumi.</p>';
+      } else {
+        document.getElementById('notif-status').innerHTML = '<p class="msg-info">Atļauja vēl nav piešķirta.</p>';
+      }
+    });
+  }
+
+  function clearAllData() {
+    if (!confirm('Tiks dzēsti VISI augi. Vai esi pārliecināts?')) return;
+    localStorage.removeItem('plants');
+    renderPlants();
+    showToast('Visi augi dzēsti.');
+    dbLog('INFO', 'Visi augu dati dzēsti', '');
+  }
+
+  /* ─── Notifications ─── */
+
+  function playRemindSound() {
+    var audio = new Audio('./remind.mp3');
+    audio.play().catch(function(err) {
+      dbLog('INFO', 'Skaņas atskaņošana neizdevās', err.message);
+    });
+  }
+
+  function checkAndNotify() {
+    if (!('Notification' in window) || Notification.permission !== 'granted') return;
+    var plants = getPlants();
+    var today  = todayStr();
+    var fired  = false;
+    for (var i = 0; i < plants.length; i++) {
+      var plant = plants[i];
+      var next = nextWateringDate(plant);
+      if (!next) continue;
+      if (next < today) {
+        new Notification('🌿 Augs nokavēts!', {
+          body: plant.name + ' bija jālaiš ' + next + '. Neaizmirsti!',
+          tag:  'plant-' + plant.id + '-overdue'
+        });
+        fired = true;
+      } else if (next === today) {
+        new Notification('💧 Laisti augu!', {
+          body: plant.name + ' šodien jālaiš.',
+          tag:  'plant-' + plant.id + '-today'
+        });
+        fired = true;
+      }
+    }
+    // Play sound once if any reminder fired and page is in background
+    if (fired && document.hidden) {
+      playRemindSound();
+    }
+  }
+
+  /* ─── Init ─── */
+
+  window.addEventListener('load', function() {
+    document.getElementById('f-last').value = todayStr();
+    renderPlants();
+    checkAndNotify();
+    setInterval(checkAndNotify, 60 * 60 * 1000);
+    dbLog('INFO', 'Lietotne ielādēta', new Date().toLocaleString('lv-LV'));
+
+    // On startup, if mode is auto (default), try to load key.txt silently
+    var startMode = localStorage.getItem('key_mode') || 'auto';
+    if (startMode === 'auto') {
+      fetch('./key.txt')
+        .then(function(res) {
+          if (!res.ok) throw new Error('nav pieejams');
+          return res.text();
+        })
+        .then(function(text) {
+          var key = text.trim();
+          if (!key) throw new Error('tukšs fails');
+          localStorage.setItem('or_api_key', key);
+          keyFromFile = true;
+          dbLog('INFO', 'Automātiski ielādēta atslēga no key.txt', maskKey(key));
+          showToast('🔑 API atslēga ielādēta no key.txt');
+        })
+        .catch(function(err) {
+          dbLog('INFO', 'key.txt automātiskā ielāde neizdevās', err.message);
+        });
+    } else {
+      dbLog('INFO', 'Atslēgas režīms', 'manuāls — key.txt netiek ielādēts');
+    }
+  });
+
 </script>
 </body>
 </html>
