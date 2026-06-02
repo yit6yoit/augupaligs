@@ -229,21 +229,6 @@ textarea { resize: vertical; }
   overflow-y: auto;
 }
 
-.guide-step { display: flex; gap: 10px; margin-bottom: 10px; font-size: 14px; }
-
-.guide-num {
-  background: #388e3c;
-  color: white;
-  border-radius: 50%;
-  width: 24px; height: 24px;
-  min-width: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13px;
-  font-weight: bold;
-}
-
 @media (max-width: 500px) {
   .plant-meta { grid-template-columns: 1fr 1fr; }
   .cal-cell { min-height: 44px; font-size: 11px; }
