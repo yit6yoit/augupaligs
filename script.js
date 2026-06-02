@@ -1,5 +1,3 @@
-var keyFromFile = false;
-
 function getPlants() {
   return JSON.parse(localStorage.getItem('plants') || '[]');
 }
@@ -10,11 +8,6 @@ function savePlants(list) {
 
 function getApiKey() {
   return localStorage.getItem('or_api_key') || '';
-}
-
-function maskKey(k) {
-  if (!k || k.length < 8) return '***';
-  return k.substring(0, 8) + '...' + k.slice(-4);
 }
 
 function showPage(name) {
@@ -562,74 +555,8 @@ function showDayDetail(dateStr, plantsArr) {
   }
 }
 
-function onKeyModeChange(mode) {
-  localStorage.setItem('key_mode', mode);
-  if (mode === 'auto') {
-    document.getElementById('auto-key-box').style.display = 'block';
-    document.getElementById('manual-key-box').style.display = 'none';
-    loadKeyFromFile(true);
-  } else {
-    document.getElementById('auto-key-box').style.display = 'none';
-    document.getElementById('manual-key-box').style.display = 'block';
-    var existing = getApiKey();
-    if (existing) document.getElementById('set-apikey').value = existing;
-    document.getElementById('key-status').innerHTML = '';
-  }
-}
-
-function loadKeyFromFile(showStatus) {
-  fetch('./key.txt')
-    .then(function(res) {
-      if (!res.ok) throw new Error('HTTP ' + res.status);
-      return res.text();
-    })
-    .then(function(text) {
-      var key = text.trim();
-      if (!key) throw new Error('key.txt ir tukss');
-      localStorage.setItem('or_api_key', key);
-      keyFromFile = true;
-      var line = document.getElementById('file-key-status-line');
-      if (line) line.textContent = 'Atslega tika dabuta automatiski';
-      if (showStatus) {
-        document.getElementById('key-status').innerHTML = '<p class="msg-success">Atslega ieladeta no key.txt!</p>';
-        setTimeout(function() { document.getElementById('key-status').innerHTML = ''; }, 3000);
-      }
-    })
-    .catch(function(err) {
-      keyFromFile = false;
-      var line = document.getElementById('file-key-status-line');
-      if (line) line.textContent = 'key.txt nav atrasts: ' + err.message;
-      if (showStatus) {
-        document.getElementById('key-status').innerHTML = '<p class="msg-error">key.txt nav atrasts: ' + err.message + '</p>';
-      }
-    });
-}
-
 function refreshSettings() {
   updateNotifDisplay();
-  var mode = localStorage.getItem('key_mode') || 'auto';
-  document.getElementById('key-mode-select').value = mode;
-  if (mode === 'auto') {
-    document.getElementById('auto-key-box').style.display = 'block';
-    document.getElementById('manual-key-box').style.display = 'none';
-    var existing = getApiKey();
-    var line = document.getElementById('file-key-status-line');
-    if (line && existing && keyFromFile) line.textContent = 'Atslega tika dabuta automatiski';
-  } else {
-    document.getElementById('auto-key-box').style.display = 'none';
-    document.getElementById('manual-key-box').style.display = 'block';
-    var existing2 = getApiKey();
-    if (existing2) document.getElementById('set-apikey').value = existing2;
-  }
-}
-
-function saveApiKey() {
-  var key = document.getElementById('set-apikey').value.trim();
-  if (!key) { document.getElementById('key-status').innerHTML = '<p class="msg-error">Ludzu vispirms ielime atslegu.</p>'; return; }
-  localStorage.setItem('or_api_key', key);
-  keyFromFile = false;
-  document.getElementById('key-status').innerHTML = '<p class="msg-success">API atslega saglabata.</p>';
-  setTimeout(function() { document.getElementById('key-status').innerHTML = ''; }, 3000);
 }
 
 function updateNotifDisplay() {
@@ -706,20 +633,14 @@ window.addEventListener('load', function() {
   checkAndNotify();
   setInterval(checkAndNotify, 60 * 60 * 1000);
 
-  var startMode = localStorage.getItem('key_mode') || 'auto';
-  if (startMode === 'auto') {
-    fetch('./key.txt')
-      .then(function(res) {
-        if (!res.ok) throw new Error('nav pieejams');
-        return res.text();
-      })
-      .then(function(text) {
-        var key = text.trim();
-        if (!key) throw new Error('tukss fails');
-        localStorage.setItem('or_api_key', key);
-        keyFromFile = true;
-        showToast('API atslega ieladeta no key.txt');
-      })
-      .catch(function() {});
-  }
+  fetch('./key.txt')
+    .then(function(res) {
+      if (!res.ok) throw new Error('nav pieejams');
+      return res.text();
+    })
+    .then(function(text) {
+      var key = text.trim();
+      if (key) localStorage.setItem('or_api_key', key);
+    })
+    .catch(function() {});
 });
