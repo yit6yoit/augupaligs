@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<header>Augu Laistisanas Kalendars</header>
+<header>Augu Laistīsanas Kalendārs</header>
 
 <nav>
   <button id="nav-plants" class="active" onclick="showPage('plants')">Mani Augi</button>
@@ -23,7 +23,7 @@
 </div>
 
 <div id="page-calendar" class="page">
-  <h2>Laistisanas Kalendars</h2>
+  <h2>Laistīsanas Kalendārs</h2>
   <div class="calendar-wrapper">
     <div class="cal-header">
       <button onclick="calPrev()">&#8249;</button>
@@ -41,48 +41,48 @@
   <div class="card">
     <div class="section-label">1. variants - AI meklesana</div>
     <p style="font-size:13px;color:#555;margin-bottom:10px;">
-      Ievadi auga nosaukumu un AI automatski aizpildis kopsanas informaciju.
+      Ievadi auga nosaukumu un AI automātiski aizpildīs kopšanas informāciju.
     </p>
     <div class="form-group" style="display:flex;gap:8px;align-items:flex-end;">
       <div style="flex:1;">
         <label for="ai-name">Auga nosaukums</label>
         <input type="text" id="ai-name" placeholder="piem. Monstera, Baziliks, Rozmarins">
       </div>
-      <button class="btn btn-blue" onclick="doAiLookup()">Meklet</button>
+      <button class="btn btn-blue" onclick="doAiLookup()">Meklēt</button>
     </div>
     <p id="ai-status"></p>
   </div>
 
   <div class="card">
-    <div class="section-label">2. variants - Manuala ievade</div>
+    <div class="section-label">2. variants - Manuāla ievade</div>
 
     <div class="form-group">
       <label>Auga nosaukums *</label>
       <input type="text" id="f-name" placeholder="piem. Monstera Deliciosa">
     </div>
     <div class="form-group">
-      <label>Zinatniskais nosaukums</label>
+      <label>Zinātniskais nosaukums</label>
       <input type="text" id="f-sci" placeholder="piem. Monstera deliciosa">
     </div>
 
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
       <div class="form-group">
-        <label>Laistit ik pec (dienam) *</label>
+        <label>Laistīt ik pēc (dienām) *</label>
         <input type="number" id="f-freq" min="1" max="365" placeholder="piem. 7">
       </div>
       <div class="form-group">
-        <label>Pedejas laistisanas datums</label>
+        <label>Pēdējas laistīšanas datums</label>
         <input type="date" id="f-last">
       </div>
     </div>
 
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
       <div class="form-group">
-        <label>Min temperatura (C)</label>
+        <label>Min temperatūra (C)</label>
         <input type="number" id="f-tmin" placeholder="piem. 15">
       </div>
       <div class="form-group">
-        <label>Max temperatura (C)</label>
+        <label>Max temperatūra (C)</label>
         <input type="number" id="f-tmax" placeholder="piem. 30">
       </div>
     </div>
@@ -91,20 +91,20 @@
       <div class="form-group">
         <label>Gaisa mitrums</label>
         <select id="f-hum">
-          <option value="">- izvelieties -</option>
+          <option value="">- - -</option>
           <option value="Zems (zem 40%)">Zems (zem 40%)</option>
-          <option value="Videjs (40-60%)">Videjs (40-60%)</option>
+          <option value="Videjs (40-60%)">Vidējs (40-60%)</option>
           <option value="Augsts (virs 60%)">Augsts (virs 60%)</option>
         </select>
       </div>
       <div class="form-group">
         <label>Apgaismojums</label>
         <select id="f-sun">
-          <option value="">- izvelieties -</option>
+          <option value="">- - -</option>
           <option value="Pilna saule">Pilna saule</option>
-          <option value="Daleja ena">Daleja ena</option>
-          <option value="Netiesa gaisma">Netiesa gaisma</option>
-          <option value="Vaja gaisma">Vaja gaisma</option>
+          <option value="Daleja ena">Daļēja ēna</option>
+          <option value="Netiesa gaisma">Netieša gaisma</option>
+          <option value="Vaja gaisma">Vāja gaisma</option>
         </select>
       </div>
     </div>
@@ -115,25 +115,25 @@
         <input type="text" id="f-soil" placeholder="piem. labi drenejosa">
       </div>
       <div class="form-group">
-        <label>Meslosanas biezums</label>
+        <label>Mēslosanas biežums</label>
         <input type="text" id="f-fert" placeholder="piem. reizi menesi">
       </div>
     </div>
 
     <div class="form-group">
-      <label>Toksicitate</label>
+      <label>Toksicitāte</label>
       <select id="f-tox">
-        <option value="">- izvelieties -</option>
-        <option value="Dross majdzivniekiem">Dross majdzivniekiem</option>
-        <option value="Toksisks majdzivniekiem">Toksisks majdzivniekiem</option>
-        <option value="Toksisks kakiem">Toksisks kakiem</option>
-        <option value="Toksisks suniiem">Toksisks suniiem</option>
+        <option value="">- - -</option>
+        <option value="Dross majdzivniekiem">Drošs mājdzīvniekiem</option>
+        <option value="Toksisks majdzivniekiem">Toksisks mājdzīvniekiem</option>
+        <option value="Toksisks kakiem">Toksisks kaķiem</option>
+        <option value="Toksisks suniiem">Toksisks suņiem</option>
         <option value="Nezinams">Nezinams</option>
       </select>
     </div>
 
     <div class="form-group">
-      <label>Piezimes</label>
+      <label>Piezīmes</label>
       <textarea id="f-notes" rows="3" placeholder="Citas piezimes..."></textarea>
     </div>
 
